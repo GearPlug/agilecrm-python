@@ -82,7 +82,7 @@ class Client(object):
         """
         return self._delete('contacts/{}'.format(contact_id))
 
-    def dynamic_search(self, data):
+    def search(self, data):
         """Returns contacts or companies object which is associated with given filter
 
         Args:
