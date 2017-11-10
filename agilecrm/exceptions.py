@@ -4,3 +4,11 @@ class BaseError(Exception):
 
 class UnauthorizedError(BaseError):
     pass
+
+
+class WrongFormatInputError(BaseError):
+    pass
+
+
+class ContactsLimitExceededError(BaseError):
+    pass
