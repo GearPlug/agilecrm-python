@@ -27,6 +27,18 @@ class Client(object):
         """
         return self._post('contacts', data=data)
 
+    def get_contacts(self, params=None):
+        """Returns list of contacts in domain which are ordered by creation time.
+
+        Args:
+            params : Paging can be applied using the page_size and cursor query parameters
+
+        Returns:
+            A dict.
+
+        """
+        return self._get('contacts/', params=params)
+
     def get_contact_by_id(self, contact_id):
         """Returns contact object which is associated with given id
 
