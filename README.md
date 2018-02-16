@@ -4,7 +4,7 @@ agilecrm is an API wrapper for Agile CRM written in Python
 
 ## Installing
 ```
-pip install git+git://github.com/GearPlug/agilecrm-python.git
+pip install agilecrm-python
 ```
 
 ## Usage
