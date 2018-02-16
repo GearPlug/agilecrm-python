@@ -399,18 +399,24 @@ class Client(object):
                                 auth=(self.email, self.api_key), **kwargs)
 
     def _parse(self, response):
-        if response.status_code == 204:
+        status_code = response.status_code
+        if 'application/json' in response.headers['Content-Type']:
+            r = response.json()
+        else:
+            r = response.text
+        if status_code == 200:
+            return r
+        if status_code == 204:
             return None
-        if response.status_code == 400:
-            raise WrongFormatInputError
-        if response.status_code == 401:
-            raise UnauthorizedError
-        if response.status_code == 406:
-            raise ContactsLimitExceededError
-        if response.headers['Content-Type'] == 'application/json':
-            return response.json()
-
-        return response.text
+        if status_code == 400:
+            raise WrongFormatInputError(r)
+        if status_code == 401:
+            raise UnauthorizedError(r)
+        if status_code == 406:
+            raise ContactsLimitExceededError(r)
+        if status_code == 500:
+            raise Exception
+        return r
 
     def _headers(self):
         return {
