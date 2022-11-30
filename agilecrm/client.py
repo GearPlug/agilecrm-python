@@ -382,6 +382,21 @@ class Client(object):
 
         """
         return self._get('tasks/based', params=params)
+    
+    def get_milestones(self):
+        """
+        Return list of milestones
+        """
+        return self._get('milestone/pipelines')
+    
+    def get_deal_sources(self):
+        """
+        Return list of deal sources
+        """
+        params = {
+            "entity_type": "DEAL_SOURCE"
+        }
+        return self._get('categories', params=params)
 
     def _get(self, endpoint, params=None):
         response = self._request('GET', endpoint, params=params)
