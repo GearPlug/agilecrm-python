@@ -131,6 +131,18 @@ class Client(object):
 
         """
         return self._post('opportunity', data=data)
+    
+    def get_deals(self, params=None):
+        """
+        Returns list of all "Deals" in the domain, which are ordered by created time.
+        Count of the deals will be in the first deal
+        Args:
+            params : Paging can be applied using the page_size and cursor query parameters
+        Returns:
+            A dict.
+
+        """
+        return self._get('opportunity/', params=params)
 
     def get_deal_by_id(self, deal_id):
         """Gets the deal with the given ID.
@@ -402,7 +414,10 @@ class Client(object):
     def _parse(self, response):
         status_code = response.status_code
         if 'application/json' in response.headers['Content-Type']:
-            r = response.json()
+            try:
+                r = response.json()
+            except ValueError:
+                r = response.text
         else:
             r = response.text
         if status_code == 200:
