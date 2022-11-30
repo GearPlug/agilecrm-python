@@ -7,7 +7,7 @@ def read(fname):
 
 
 setup(name='agilecrm-python',
-      version='0.1.1',
+      version='0.1.2',
       description='API wrapper for Agile CRM written in Python',
       long_description=read('README.md'),
       url='https://github.com/GearPlug/agilecrm',
