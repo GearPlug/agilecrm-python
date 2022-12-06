@@ -131,6 +131,18 @@ class Client(object):
 
         """
         return self._post('opportunity', data=data)
+    
+    def get_deals(self, params=None):
+        """
+        Returns list of all "Deals" in the domain, which are ordered by created time.
+        Count of the deals will be in the first deal
+        Args:
+            params : Paging can be applied using the page_size and cursor query parameters
+        Returns:
+            A dict.
+
+        """
+        return self._get('opportunity/', params=params)
 
     def get_deal_by_id(self, deal_id):
         """Gets the deal with the given ID.
@@ -265,6 +277,18 @@ class Client(object):
 
         """
         return self._post('events', data=data)
+    
+    def get_events(self, params=None):
+        """
+        Returns list of all "Events" in the domain, which are ordered by created time.
+        Count of the deals will be in the first deal
+        Args:
+            params : Paging can be applied using the page_size and cursor query parameters
+        Returns:
+            A dict.
+
+        """
+        return self._get('events/', params=params)
 
     def get_event_by_contact_id(self, contact_id):
         """Gets the deal with the given ID.
@@ -370,6 +394,32 @@ class Client(object):
 
         """
         return self._get('tasks/based', params=params)
+    
+    def get_milestones(self):
+        """
+        Return list of milestones
+        """
+        return self._get('milestone/pipelines')
+    
+    def get_deal_sources(self):
+        """
+        Return list of deal sources
+        """
+        params = {
+            "entity_type": "DEAL_SOURCE"
+        }
+        return self._get('categories', params=params)
+    
+    def get_activities(self, params):
+        """
+        Based on different entities, it returns a list of objects depending on the following parameters:
+        Params (dict):
+            - page_size
+            - entity_type
+            - start_time (created time)
+            - end_time (created time)
+        """
+        return self._get('activitylog/getActivitiesOnSelectedCondition', params=params)
 
     def _get(self, endpoint, params=None):
         response = self._request('GET', endpoint, params=params)
@@ -402,7 +452,10 @@ class Client(object):
     def _parse(self, response):
         status_code = response.status_code
         if 'application/json' in response.headers['Content-Type']:
-            r = response.json()
+            try:
+                r = response.json()
+            except ValueError:
+                r = response.text
         else:
             r = response.text
         if status_code == 200:
