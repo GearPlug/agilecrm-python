@@ -10,7 +10,10 @@ class Client(object):
         self.api_key = api_key
         self.email = email
         self.domain = domain
-        self.url = self.BASE_URL.format(self.domain)
+        if domain.startswith("https://"):
+            self.url = domain + "/dev/api/"
+        else:
+            self.url = self.BASE_URL.format(self.domain)
 
     def create_contact(self, data):
         """Accepts contact JSON as post data along with the credentials of domain User (User name and API Key).
