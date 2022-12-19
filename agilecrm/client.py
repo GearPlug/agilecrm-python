@@ -424,6 +424,13 @@ class Client(object):
         """
         return self._get('activitylog/getActivitiesOnSelectedCondition', params=params)
 
+    def get_custom_fields(self, scope):
+        """
+        Returns list of custom fields depending on Entity Scope
+        Scope options are: "CONTACT", "COMPANY" or "DEAL"
+        """
+        return self._get(f'custom-fields/scope/position?scope={scope}')
+
     def _get(self, endpoint, params=None):
         response = self._request('GET', endpoint, params=params)
         return self._parse(response)
